@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import BlurText from "../../Animated Components/BlurText";
+import BlurText from "../Animated Components/BlurText";
 import { Button } from "@mui/material";
 import { FaArrowRight } from "react-icons/fa";
 import { gsap } from "gsap";
