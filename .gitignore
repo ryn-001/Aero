@@ -1,0 +1,73 @@
+#----------------------------------------------------------------------#
+# Dependencies                                                         #
+#----------------------------------------------------------------------#
+
+# Node.js dependencies (e.g., in /frontend/node_modules/ and /backend/node_modules/)
+node_modules
+# Yarn v2+
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.yml
+.pnp.*
+
+# Ignore package manager lockfiles (if using multiple, only one should be committed)
+package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+#----------------------------------------------------------------------#
+# Environment Variables & Configuration Files                          #
+#----------------------------------------------------------------------#
+
+# Environment variables file (crucial for security!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Local configuration files
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+.idea/
+
+# Certificate files
+*.pem
+*.key
+*.crt
+
+#----------------------------------------------------------------------#
+# Build Output & Temporary Files                                       #
+#----------------------------------------------------------------------#
+
+# Frontend build output directory (e.g., 'build' or 'dist')
+build
+dist
+out
+.cache
+coverage
+
+# Backend logs and temporary files
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+# Optional: ignore server build output if you compile JS/TS in backend
+# backend/dist
+
+#----------------------------------------------------------------------#
+# OS and Editor specific files                                         #
+#----------------------------------------------------------------------#
+
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.stackdump
+
+# Testing coverage reports
+coverage
