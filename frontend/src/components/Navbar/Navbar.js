@@ -29,33 +29,35 @@ export default function Navbar(){
                         color: 'black',
                         
                         '&:hover':{
-                            backgroundColor: '#e7e7e7ff',
+                            backgroundColor: '#D3D3D3',
                             boxShadow: 'none'
                         },
 
                         '&:active':{
-                            backgroundColor: '#e7e7e7ff',
+                            backgroundColor: '#D3D3D3',
                             boxShadow: 'none'
                         }
                     }}
                     variant='text'>My Trips</Button>
+                    
                 <Button 
                     disableRipple
                     sx={{
-                        backgroundColor: '#f25207',
+                        backgroundColor: '#FF8C00',
                         width: '150px',
                         height: '40px',
                         color : 'white',
                         boxShadow: 'none',
                         borderRadius: '1rem',
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 
                         '&:hover':{
-                            backgroundColor: '#da5112ff',
+                            backgroundColor: '#CC5500',
                             boxShadow: 'none'
                         },
 
                         '&:active':{
-                            backgroundColor: '#da5112ff',
+                            backgroundColor: '#CC5500',
                             boxShadow: 'none'
                         }
                     }}
