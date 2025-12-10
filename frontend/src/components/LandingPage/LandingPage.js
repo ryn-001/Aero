@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import BlurText from "../Animated Components/BlurText";
 import { Button } from "@mui/material";
 import { FaArrowRight } from "react-icons/fa";
 import { gsap } from "gsap";
+import {useNavigate} from "react-router-dom";
+import BlurText from "../Animated Components/BlurText";
 import './LandingPage.css';
 
 export default function LandingPage() {
@@ -10,6 +11,7 @@ export default function LandingPage() {
     const [second, setSecond] = useState(false);
     const [description,setDescription] = useState(false);
     const buttonRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (description && buttonRef.current) {
@@ -26,6 +28,7 @@ export default function LandingPage() {
             <header style={{ textAlign: 'center' }}>
                 <BlurText
                     text="Discover Your Next Adventure"
+                    className="first-text"
                     delay={150}
                     animateBy="words"
                     color='#FF8C00'
@@ -33,15 +36,17 @@ export default function LandingPage() {
                 />
 
                 <BlurText
-                    text="Personalized Itineraries at Your Fingertips"
-                    delay={150}
-                    animateBy="words"
-                    start={first}
-                    onAnimationComplete={() => setSecond(true)}
-                />
+                        text="Personalized Itineraries at Your Fingertips"
+                        className="second-text"
+                        delay={150}
+                        animateBy="words"
+                        start={first}
+                        onAnimationComplete={() => setSecond(true)}
+                    />
 
                 <BlurText
                     className="description"
+                    color='#6e6e6e'
                     text="Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget."
                     delay={0}
                     animateBy="words"
@@ -67,6 +72,7 @@ export default function LandingPage() {
                             '&:active': { backgroundColor: '#181818ff', boxShadow: 'none' },
                         }}
                         variant='contained'
+                        onClick={() => navigate('/register')}
                     >
                         Get Started <FaArrowRight />
                     </Button>

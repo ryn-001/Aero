@@ -48,7 +48,7 @@ const BlurText = ({
       style={{
         display: "flex",
         flexWrap: "wrap",
-        justifyContent: "center", // center the text horizontally
+        justifyContent: "center", 
         gap: "0.05em",
         margin: 0
       }}

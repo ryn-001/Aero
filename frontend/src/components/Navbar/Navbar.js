@@ -1,9 +1,12 @@
 import {useState} from 'react';
 import { PiLeafLight } from "react-icons/pi";
 import {Button} from "@mui/material";
+import { useNavigate} from 'react-router-dom';
 import "./Navbar.css";
 
 export default function Navbar(){
+
+    const navigate = useNavigate();
 
     const handleTrips = () => {
 
@@ -15,7 +18,7 @@ export default function Navbar(){
 
     return(
         <nav className='navbar'>
-            <div className='nav-logo'>
+            <div className='nav-logo' onClick={() => navigate('/')}>
                 <PiLeafLight />Aero
             </div>
 
@@ -61,7 +64,9 @@ export default function Navbar(){
                             boxShadow: 'none'
                         }
                     }}
-                    variant='contained'>Sign Up</Button>
+                    variant='contained'
+                    onClick={() => navigate('/register')}
+                    >Sign Up</Button>
             </div>
         </nav>
     )

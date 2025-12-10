@@ -24,7 +24,6 @@ header > *{
     font-weight: normal;
     margin-top: 1rem;
     padding: 1rem;
-    font-weight: normal;
     color: #6e6e6e;
     text-align: center;
 }
@@ -36,5 +35,12 @@ header > *{
 
     header{
         padding: 3rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header{
+        padding: 2rem;
+        font-size: 1.5rem;
     }
 }
