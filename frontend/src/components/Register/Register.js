@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { TextField, Button } from '@mui/material';
 import { FaGoogle } from "react-icons/fa";
+import {useNavigate} from 'react-router-dom'
 import './Register.css'
 
 export default function Register() {
+    const navigate = useNavigate();
+
     const [data, setData] = useState({
         username: '',
         userid: '',
@@ -102,8 +105,9 @@ export default function Register() {
                     SIGN UP
                 </Button>
 
-                <div id="remember-me">
-                    <input
+                <div className="signup-utils">
+                    <div id="#remember-me">
+                        <input
                         type="checkbox"
                         id="remember-me-checkbox"
                         name="rememberMe"
@@ -130,6 +134,15 @@ export default function Register() {
                     >
                         Remember me
                     </label>
+                    </div>
+
+                    <div onClick={() => navigate('/login')} 
+                        style={{
+                            color: '#FF8C00', 
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            textDecoration: 'underline'
+                    }}>Login Here</div>
                 </div>
 
                 <span
