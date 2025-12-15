@@ -1,0 +1,68 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.register{
+    margin-top: 3rem;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 1rem;
+    transition: all 200ms ease-in-out;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+@media screen and (max-width: 450px){
+    .register{
+        box-shadow: none;
+        margin-top: 2rem;
+        width: 100vw;
+        height: 100%
+    }
+}
+
+h1{
+    text-align: center;
+}
+
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+form > * {
+    width: 300px;
+}
+
+#remember-me{
+    align-items: center;
+}
+
+#form-submit-button{
+    margin-top: 0.5rem;
+}
+
+.open-authorization{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#google-oauth:hover{
+    background-color: rgba(0, 0, 0, 0.05);
+}

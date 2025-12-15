@@ -8,14 +8,6 @@ export default function Navbar(){
 
     const navigate = useNavigate();
 
-    const handleTrips = () => {
-
-    }
-
-    const handleSignUp = () => {
-        
-    }
-
     return(
         <nav className='navbar'>
             <div className='nav-logo' onClick={() => navigate('/')}>
