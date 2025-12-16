@@ -27,6 +27,11 @@
     align-items: center;
     justify-content: center;
     padding-left: 10px;
+    transition: all 200ms ease-in-out;
+}
+
+.nav-logo:hover{
+    transform: scale(1.05);
 }
 
 .nav-content{

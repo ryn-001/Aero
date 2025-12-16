@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { TextField, Button } from '@mui/material';
 import { FaGoogle } from "react-icons/fa";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 import './Register.css'
 
 export default function Register() {
@@ -16,35 +18,102 @@ export default function Register() {
         rememberMe: false,
     })
 
+    const [errorData, setError] = useState({
+        username: '',
+        userid: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+
     const handleSumbit = async (e) => {
         e.preventDefault();
-        console.log(data);
+
+        if (!validate()) return;
+
+        const sendData = await axios.post();
+
+        toast.promise(sendData, {
+            loading: 'Saving...',
+            success: <b>Saved!</b>,
+            error: <b>Could not save.</b>,
+        })
+    }
+
+    const validate = () => {
+        let temp = {};
+
+        if (!data.username.trim()) temp.username = 'Enter the Full name';
+
+        if (!data.userid.trim()) temp.userid = 'Enter the username';
+
+        if (!data.email.trim()) temp.email = 'Email required';
+        else if (!/\S+@\S+\.\S+/.test(data.email)) temp.email = 'Enter valid Email ID';
+
+        if (data.password.length < 6) temp.password = 'Password length should be greater than 6';
+        else if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]/.test(data.password)) temp.password = 'Password should contain atleast one symbol';
+        else if (!/[0-9]/.test(data.password)) temp.password = 'Password should contain atleast one number';
+        else if (!/[a-zA-Z]+/g.test(data.password)) temp.password = 'Password should contain at least one character';
+
+        if (data.password.trim() !== data.confirmPassword.trim()) temp.confirmPassword = 'Passwords do not match';
+
+        setError({
+            username: '',
+            userid: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            ...temp,
+        });
+
+
+        return Object.keys(temp).length === 0;
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setData(prev => ({ ...prev, [name]: value }));
+        setError(prev => ({ ...prev, [name]: '' }));
     }
 
     const textFieldStyles = {
         '& .MuiInput-underline:before': {
-            borderBottomColor: '#888', 
+            borderBottomColor: '#888',
         },
         '& .MuiInput-underline:hover:before': {
-            borderBottomColor: '#555', 
+            borderBottomColor: '#555',
         },
         '& .MuiInput-underline:after': {
-            borderBottomColor: '#FF8C00', 
+            borderBottomColor: '#FF8C00',
             borderBottomWidth: 2,
         },
         '& .MuiInputLabel-root': {
-            color: '#888', 
+            color: '#888',
         },
         '& .MuiInputLabel-root.Mui-focused': {
-            color: '#FF8C00', 
+            color: '#FF8C00',
+        },
+        '& .Mui-error:after': {
+            borderBottomColor: '#d32f2f',
+        },
+        '& .Mui-error': {
+            color: '#d32f2f',
+        },
+        '& .MuiFormHelperText-root.Mui-error': {
+            color: '#d32f2f',
+            fontSize: '12px',
+            marginLeft: 0,
         },
     }
 
     return (
         <div className='register'>
+            <div><Toaster position="top-right" reverseOrder={true} /></div>
+
             <h1>Sign Up</h1>
 
-            <form onSubmit={handleSumbit}>
+            <form onSubmit={handleSumbit} noValidate>
                 <TextField
                     className='form'
                     type="text"
@@ -53,8 +122,10 @@ export default function Register() {
                     id="username"
                     variant='standard'
                     value={data.username}
-                    onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                    onChange={handleChange}
                     sx={textFieldStyles}
+                    error={!!errorData.username}
+                    helperText={errorData.username}
                 />
 
                 <TextField
@@ -64,8 +135,10 @@ export default function Register() {
                     id="userid"
                     variant='standard'
                     value={data.userid}
-                    onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                    onChange={handleChange}
                     sx={textFieldStyles}
+                    error={!!errorData.userid}
+                    helperText={errorData.userid}
                 />
 
                 <TextField
@@ -75,8 +148,10 @@ export default function Register() {
                     id="email"
                     variant='standard'
                     value={data.email}
-                    onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                    onChange={handleChange}
                     sx={textFieldStyles}
+                    error={!!errorData.email}
+                    helperText={errorData.email}
                 />
 
                 <TextField
@@ -86,8 +161,10 @@ export default function Register() {
                     id="password"
                     variant='standard'
                     value={data.password}
-                    onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                    onChange={handleChange}
                     sx={textFieldStyles}
+                    error={!!errorData.password}
+                    helperText={errorData.password}
                 />
 
                 <TextField
@@ -97,52 +174,54 @@ export default function Register() {
                     id="confirm-password"
                     variant='standard'
                     value={data.confirmPassword}
-                    onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                    onChange={handleChange}
                     sx={textFieldStyles}
+                    error={!!errorData.confirmPassword}
+                    helperText={errorData.confirmPassword}
                 />
 
-                <Button id="form-submit-button" type='submit' variant='contained' sx={{ backgroundColor: "black" }}>
+                <Button id="form-submit-button" type='submit' variant='contained' disabled={!data.username || !data.userid || !data.email || !data.password || !data.confirmPassword} sx={{ backgroundColor: "black" }}>
                     SIGN UP
                 </Button>
 
                 <div className="signup-utils">
                     <div id="#remember-me">
                         <input
-                        type="checkbox"
-                        id="remember-me-checkbox"
-                        name="rememberMe"
-                        checked={data.rememberMe}
-                        onChange={(e) =>
-                            setData(prev => ({
-                                ...prev,
-                                rememberMe: e.target.checked
-                            }))
-                        }
-                        style={{
-                            width: "18px"
-                        }}
-                    />
-                    <label
-                        htmlFor="remember-me-checkbox"
-                        style={{
-                            fontSize: "14px",
-                            color: "#555",
-                            cursor: "pointer",
-                            userSelect: "none",
-                            marginLeft: "6px",
-                        }}
-                    >
-                        Remember me
-                    </label>
+                            type="checkbox"
+                            id="remember-me-checkbox"
+                            name="rememberMe"
+                            checked={data.rememberMe}
+                            onChange={(e) =>
+                                setData(prev => ({
+                                    ...prev,
+                                    rememberMe: e.target.checked
+                                }))
+                            }
+                            style={{
+                                width: "18px"
+                            }}
+                        />
+                        <label
+                            htmlFor="remember-me-checkbox"
+                            style={{
+                                fontSize: "14px",
+                                color: "#555",
+                                cursor: "pointer",
+                                userSelect: "none",
+                                marginLeft: "6px",
+                            }}
+                        >
+                            Remember me
+                        </label>
                     </div>
 
-                    <div onClick={() => navigate('/login')} 
+                    <div onClick={() => navigate('/login')}
                         style={{
-                            color: '#FF8C00', 
+                            color: '#FF8C00',
                             cursor: 'pointer',
                             fontSize: '14px',
                             textDecoration: 'underline'
-                    }}>Login Here</div>
+                        }}>Login Here</div>
                 </div>
 
                 <span
@@ -157,7 +236,7 @@ export default function Register() {
                 ><hr style={{ width: '100%', marginRight: '0.5rem' }} /> OR <hr style={{ width: '100%', marginLeft: '0.5rem' }} /></span>
 
                 <div className='open-authorization'>
-                    <Button id="google-oauth" type='submit' variant='outlined'
+                    <Button id="google-oauth" type='button' variant='outlined'
                         sx={{
                             border: '1px solid black',
                             width: '100%',
