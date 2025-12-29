@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { TextField, Button } from '@mui/material';
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'
+import { config } from '../../config';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import './Register.css'
@@ -26,19 +27,37 @@ export default function Register() {
         confirmPassword: '',
     });
 
-    const handleSumbit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!validate()) return;
+        if (!validate()) return; 
 
-        const sendData = await axios.post();
+        try {
+            const sendData = axios.post(`${config.endpoint}/users/register`, {
+                fullname: data.username,
+                username: data.userid,
+                email: data.email,
+                password: data.password
+            });
 
-        toast.promise(sendData, {
-            loading: 'Saving...',
-            success: <b>Saved!</b>,
-            error: <b>Could not save.</b>,
-        })
-    }
+            toast.promise(sendData, {
+                loading: 'Saving...',
+                success: <b>Saved!</b>,
+                error: <b>Could not save.</b>,
+            });
+
+            const res = await sendData;
+
+            if (res.status === 201) {
+                navigate('/login'); 
+            }
+
+        } catch (err) {
+            console.log(err);
+            toast.error(err.response?.data?.message || 'Something went wrong');
+        }
+    };
+
 
     const validate = () => {
         let temp = {};
@@ -113,7 +132,7 @@ export default function Register() {
 
             <h1>Sign Up</h1>
 
-            <form onSubmit={handleSumbit} noValidate>
+            <form onSubmit={handleSubmit} noValidate>
                 <TextField
                     className='form'
                     type="text"
