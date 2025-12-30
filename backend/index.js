@@ -15,7 +15,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || 5000;
 const PORT = process.env.PORT;
 
 //Routes
