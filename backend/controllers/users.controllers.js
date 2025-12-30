@@ -25,10 +25,8 @@ const registerUser = async (req,res) => {
             })
         }
 
-        const hashedPassword = await bcrypt.hash(password,10);
-
         const newUser = await User.create({
-            fullname, username, email, password: hashedPassword
+            fullname, username, email, password
         })
 
         return res.status(201).json({
@@ -38,11 +36,18 @@ const registerUser = async (req,res) => {
 
     }catch(e){
         console.log(e);
+
+        if (e.name === 'ValidationError') {
+            return res.status(400).json({
+                message: Object.values(e.errors)[0].message
+            });
+        }
+        
         return res.status(500).json({error: e.message});
     }
 }
 
-const loginUser = async () => {
+const loginUser = async (req,res) => {
     
 }
 

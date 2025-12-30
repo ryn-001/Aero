@@ -62,6 +62,10 @@ export default function Register() {
     const validate = () => {
         let temp = {};
 
+        if (data.userid.length < 5 || data.userid.length > 10) {
+            temp.userid = 'Username must be 5–10 characters';
+        }
+
         if (!data.username.trim()) temp.username = 'Enter the Full name';
 
         if (!data.userid.trim()) temp.userid = 'Enter the username';
