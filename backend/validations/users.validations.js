@@ -9,7 +9,7 @@ const registerSchema = joi.object({
 
 const loginSchema = joi.object({
     email: joi.string().trim().email().required(),
-    password: joi.string().trim().min(6).pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])')).required()
+    password: joi.string().trim().min(6).pattern(/^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])/).required()
 })
 
 module.exports = {registerSchema,loginSchema};

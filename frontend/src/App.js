@@ -5,6 +5,7 @@ import LandingPage from './components/LandingPage/LandingPage.js';
 import Register from './components/Register/Register.js';
 import Login from './components/Login/Login.js';
 import Squares from './components/Animated Components/squareGrid.js';
+import Trip from './components/Trip/Trip.js';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/trip' element={<Trip />} />
       </Routes>
     </div>
   );
