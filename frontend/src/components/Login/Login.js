@@ -51,13 +51,22 @@ export default function Login() {
         if (!validate()) return;
 
         try {
-            const res = await axios.post(
+            const loginData = axios.post(
                 `${config.endpoint}/users/login`,
                 { email: data.email, password: data.password },
                 { withCredentials: true }
             );
-            toast.success(res.data.message);
-            navigate('/trip');
+
+            toast.promise(sendData, {
+                loading: 'Saving...',
+                success: <b>Logged in</b>,
+                error: <b>Cannot Login</b>,
+            });
+
+            const res = await loginData;
+            if (res.status === 200) {
+                navigate('/trip'); 
+            }
         } catch (err) {
             toast.error(err.response?.data?.message || "Login failed");
         }
