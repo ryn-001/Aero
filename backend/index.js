@@ -10,7 +10,7 @@ const app = express();
 dotenv.config();
 app.use(cors({
   origin: ['https://aero-umber.vercel.app/', 'http://localhost:3000/'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
 app.use(express.json());
