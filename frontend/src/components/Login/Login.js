@@ -57,7 +57,7 @@ export default function Login() {
                 { withCredentials: true }
             );
 
-            toast.promise(sendData, {
+            toast.promise(loginData, {
                 loading: 'Saving...',
                 success: <b>Logged in</b>,
                 error: <b>Cannot Login</b>,
