@@ -9,7 +9,7 @@ const cors = require('cors');
 const app = express();
 dotenv.config();
 app.use(cors({
-  origin: 'https://aero-umber.vercel.app',
+  origin: ['https://https://aero-umber.vercel.app/'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
