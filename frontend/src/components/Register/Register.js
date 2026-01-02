@@ -40,11 +40,24 @@ export default function Register() {
                 password: data.password
             });
 
-            toast.promise(sendData, {
-                loading: 'Saving...',
-                success: <b>Saved!</b>,
-                error: <b>Could not save.</b>,
-            });
+            toast.promise(
+                sendData, 
+                {
+                    loading: 'Saving...',
+                    success: (data) => {
+                        return <b>Saved !</b>;
+                    },
+                    error: <b>Could not save.</b>,
+                },
+                {
+                    success: {
+                        duration: 2000,
+                    },
+                    error: {
+                        duration: 3000,
+                    },
+                }
+            );
 
             const res = await sendData;
 
@@ -132,11 +145,13 @@ export default function Register() {
 
     return (
         <div className='register'>
-            <div><Toaster position="top-right" reverseOrder={true} /></div>
+            <div className='toaster'>
+                <Toaster position="top-right" reverseOrder={true} />
+            </div>
 
             <h1>Sign Up</h1>
 
-            <form onSubmit={handleSubmit} noValidate>
+            <form className='register-form' onSubmit={handleSubmit} noValidate>
                 <TextField
                     className='form'
                     type="text"

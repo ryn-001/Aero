@@ -74,7 +74,7 @@ export default function LandingPage() {
                                 '&:active': { backgroundColor: '#181818ff', boxShadow: 'none' },
                             }}
                             variant='contained'
-                            onClick={() => navigate('/register')}
+                            onClick={() => navigate('/tripForm')}
                         >
                             Get Started <FaArrowRight id='get-started-arrow' />
                         </Button>

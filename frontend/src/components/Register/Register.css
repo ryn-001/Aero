@@ -19,6 +19,16 @@
     z-index: 5;
 }
 
+.toaster{
+  margin: 0;
+}
+
+@media screen and (max-width) {
+  .toaster{
+    margin-top: 4.5rem;
+  }
+}
+
 @media screen and (max-width: 500px){
     .register{
         box-shadow: none;
@@ -31,19 +41,21 @@
 
 h1{
     text-align: center;
+    padding: 1rem;
 }
 
-form{
+.register-form{
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    padding: 1rem;
+    padding: 2rem;
+    margin: 0 auto;
 }
 
-form > * {
+.register-form > * {
     width: 300px;
 }
 

@@ -1,3 +1,3 @@
 export const config = {
-  endpoint: 'https://aero-1ma0.onrender.com/v1/api'
+  endpoint: 'http://10.38.200.211:8082/v1/api'
 };

@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { config } from '../../config';
+import { useAuth } from '../../contexts/AuthContext';
 import './Login.css';
 
 export default function Login() {
     const navigate = useNavigate();
+    const {login} = useAuth();
 
     const [data, setData] = useState({
         email: '',
@@ -57,15 +59,27 @@ export default function Login() {
                 { withCredentials: true }
             );
 
-            toast.promise(loginData, {
-                loading: 'Saving...',
-                success: <b>Logged in</b>,
-                error: <b>Cannot Login</b>,
-            });
+            toast.promise(
+                loginData, 
+                {
+                    loading: 'Checking...',
+                    success: <b>Logged In !</b>,
+                    error: <b>Unable to Login</b>,
+                },
+                {
+                    success: {
+                        duration: 2000,
+                    },
+                    error: {
+                        duration: 3000,
+                    },
+                }
+            );
 
             const res = await loginData;
             if (res.status === 200) {
-                navigate('/trip'); 
+                login(res.data.user);
+                navigate('/tripForm')
             }
         } catch (err) {
             toast.error(err.response?.data?.message || "Login failed");
@@ -85,9 +99,12 @@ export default function Login() {
 
     return (
         <div className='login'>
-            <Toaster position="top-right" reverseOrder={true} />
+            <div className='toaster'>
+                <Toaster position="top-right" reverseOrder={true} />
+            </div>
+
             <h1>Login</h1>
-            <form onSubmit={handleSubmit} noValidate>
+            <form className='login-form' onSubmit={handleSubmit} noValidate>
                 <TextField
                     type="email"
                     name="email"

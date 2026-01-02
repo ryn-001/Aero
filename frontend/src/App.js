@@ -5,12 +5,19 @@ import LandingPage from './components/LandingPage/LandingPage.js';
 import Register from './components/Register/Register.js';
 import Login from './components/Login/Login.js';
 import Squares from './components/Animated Components/squareGrid.js';
+import TripForm from './components/TripForm/TripForm.js';
 import Trip from './components/Trip/Trip.js';
+import { Toaster } from 'react-hot-toast';
+import {ProtectedRoute,PublicRoute} from './components/CheckRoutes.js';
 
 function App() {
   return (
     <div className="App">
       <Navbar />
+
+      <div className='toaster'>
+        <Toaster position="top-right" reverseOrder={true} />
+      </div>
 
       <Squares
         speed={0.5}
@@ -22,9 +29,16 @@ function App() {
 
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/trip' element={<Trip />} />
+        
+        <Route element={<PublicRoute/>}>
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+        </Route>
+        
+        <Route element={<ProtectedRoute />}>
+          <Route path='/tripForm' element={<TripForm />} />
+          <Route path='/trip' element={<Trip />} />
+        </Route>
       </Routes>
     </div>
   );

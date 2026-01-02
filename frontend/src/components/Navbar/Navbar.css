@@ -5,7 +5,7 @@
 }
 
 .navbar{
-    width: 50%;
+    width: 60%;
     z-index: 1000;
     top: 1rem;
     margin: 0 auto;
@@ -20,6 +20,20 @@
     transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
+.user-profile{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+    font-weight: lighter;
+    gap: 5px;
+}
+
+.user-avtaar{
+    width: 30px;
+    height: 30px;
+}
+
 .nav-logo{
     font-size: xx-large;
     cursor: pointer;
@@ -32,13 +46,6 @@
 
 .nav-logo:hover{
     transform: scale(1.05);
-}
-
-.nav-content{
-    display: flex;
-    width: 50%;
-    align-items: center;
-    justify-content: space-evenly;
 }
 
 @media screen and (max-width: 768px){
