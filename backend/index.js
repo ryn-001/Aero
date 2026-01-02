@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const startServer = require('./config/startServer')
 const routes = require('./routes/index');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 // Initiating App
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(cookieParser());
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 3001;

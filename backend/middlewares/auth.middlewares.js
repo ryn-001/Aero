@@ -1,43 +1,33 @@
 const jwt = require('jsonwebtoken');
+const { User } = require('../models/users.models');
 
-const auth = (req,res,next) => {
-    try{
+const auth = async (req, res, next) => {
+    try {
+        let token = null;
+
         const authHeader = req.headers.authorization;
-
-        if(!authHeader || !authHeader.startsWith("Bearer ")){
-            return res.status(401).json({message: 'Authentication required'});
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.split(' ')[1];
+        } else if (req.cookies && req.cookies.token) {
+            token = req.cookies.token;
         }
 
-        const token = authHeader.split(" ")[1];
-        const decode = jwt.verify(token,process.env.JWT_SECRET_KEY);
-
-        req.user = decode;
-        next();
-    }catch(e){
-        return res.status(500).json({message: e.message});
-    }
-}
-
-const isAuthenticated = async (req,res,next) => {
-    try{
-        const { token } = req.cookies;
-
         if (!token) {
-            return res.status(401).json({ message: 'User must login' });
+            return res.status(401).json({ message: 'Authentication required' });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-        req.user = await User.findById(decoded._id);
+        const user = await User.findById(decoded._id);
+        if (!user) return res.status(404).json({ message: 'User not found' });
 
-        if (!req.user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
+        req.user = user;
         next();
-    }catch(e){
+    } catch (e) {
         return res.status(401).json({ message: 'Invalid or expired token' });
     }
-}
+};
 
-module.exports = {auth,isAuthenticated};
+const isAuthenticated = auth;
+
+module.exports = { auth, isAuthenticated };

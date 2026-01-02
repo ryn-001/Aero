@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import { config } from '../../config';
 import { useAuth } from '../../contexts/AuthContext';
@@ -99,9 +99,7 @@ export default function Login() {
 
     return (
         <div className='login'>
-            <div className='toaster'>
-                <Toaster position="top-right" reverseOrder={true} />
-            </div>
+            
 
             <h1>Login</h1>
             <form className='login-form' onSubmit={handleSubmit} noValidate>
