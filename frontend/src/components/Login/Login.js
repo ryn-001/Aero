@@ -78,6 +78,7 @@ export default function Login() {
 
             const res = await loginData;
             if (res.status === 200) {
+                localStorage.setItem('token', res.data.token);
                 login(res.data.user);
                 navigate('/tripForm')
             }

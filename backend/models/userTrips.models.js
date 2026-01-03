@@ -10,7 +10,7 @@ const userTripsSchema = mongoose.Schema({
         default: [],
         required: true,
     }
-});
+},{timestamps: true});
 
-const userTrips = mongoose.model('UserTrips',userTripsSchema);
-module.exports = {userTrips};
+const UserTrips = mongoose.model('UserTrips',userTripsSchema);
+module.exports = {UserTrips};

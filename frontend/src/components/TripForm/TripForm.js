@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import debounce from "lodash.debounce";
 import { TextField, Button, CircularProgress } from '@mui/material';
 import { BsBackpack2 } from "react-icons/bs";
@@ -9,6 +9,9 @@ import { IoSparklesSharp } from "react-icons/io5";
 import { LuSunMedium } from "react-icons/lu";
 import { FaMoneyBill } from "react-icons/fa";
 import { useMemo } from "react";
+import { toast } from "react-hot-toast";
+import {config} from "../../config";
+import {useAuth} from "../../contexts/AuthContext";
 import axios from "axios";
 import "./TripForm.css";
 
@@ -17,6 +20,8 @@ export default function Trip() {
     const [results, setResults] = useState([]);
     const [tripLoad, setTripLoad] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+
+    const {user} = useAuth();
 
     const [data, setData] = useState({
         place: '',
@@ -55,7 +60,31 @@ export default function Trip() {
         e.preventDefault();
         setSubmitted(true);
         if (!validate()) return;
-        setTripLoad(true);
+
+        try {
+            setTripLoad(true);
+            const postRes = await axios.post(
+                `${config.endpoint}/trip/createTrip`,
+                { trip: data },
+                { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+            );
+
+            if (postRes.status === 201) {
+                const generateRes = await axios.get(`${config.endpoint}/trip/generateTrip`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                });
+
+                if(generateRes) toast.success("Trip generated successfully!");
+
+                console.log("FINAL DATA:", generateRes.data);
+            }
+
+        } catch (e) {
+            console.error("Error:", e);
+            toast.error("Failed to get itinerary");
+        } finally {
+            setTripLoad(false);
+        }
     };
 
     const inputStyle = (hasError) => ({
