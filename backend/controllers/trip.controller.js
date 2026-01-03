@@ -35,71 +35,52 @@ const generateTrip = async (req, res) => {
     try {
         const email = req.user.email;
         const userTripsRecord = await UserTrips.findOne({ email });
-        const tripData = userTripsRecord ? userTripsRecord.trips[userTripsRecord.trips.length - 1] : null;
+        const tripData = userTripsRecord?.trips[userTripsRecord.trips.length - 1];
 
         if (!tripData) return res.status(400).json({ message: 'No trip data found' });
 
-        const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GEMINI_API_KEY });
+        const ai = new GoogleGenAI({ 
+            apiKey: process.env.GOOGLE_GEMINI_API_KEY,
+            apiVersion: 'v1' 
+        });
 
-        const prompt = `Generate a ${tripData.days}-day travel itinerary for "${tripData.place}" for a "${tripData.type}" trip with a "${tripData.cost}" budget. 
-        Return strictly JSON format following this exact schema:
+        const modelsResponse = await ai.models.list();
+
+        const prompt = `Generate a ${tripData.days}-day travel itinerary for "${tripData.place}" for a "${tripData.type}" trip with a "${tripData.cost}" budget. Make sure to attach images hyperlink so I can use them in my components.
+        
+        Return ONLY valid JSON in this schema:
         {
-        "destination": "${tripData.place}",
-        "totalDays": ${tripData.days},
-        "heroImage": "Descriptive prompt for a high-res landscape image of ${tripData.place}",
-        "hotels": [
-            { "name": "Hotel Name", "description": "Short description", "imageUrl": "Image prompt" }
-        ],
-        "destinations": [
-            { "place": "Landmark", "description": "Why visit", "imageUrl": "Image prompt" }
-        ],
-        "itinerary": [
-            {
-            "day": 1,
-            "title": "Theme",
-            "activities": ["Activity 1", "Activity 2"],
-            "imageUrl": "Image prompt",
-            "budget": "${tripData.cost}",
-            "type": "${tripData.type}"
-            }
-        ]
+          "destination": "${tripData.place}",
+          "totalDays": ${tripData.days},
+          "heroImage": "URL",
+          "hotels": [],
+          "destinations": [],
+          "itinerary": []
         }`;
 
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-            config: {
-                thinkingConfig: { thinkingLevel: "MINIMAL" }
-            }
+            model: "models/gemini-2.5-flash", 
+            contents: [{ role: "user", parts: [{ text: prompt }] }]
         });
         
-        const text = response.text || (response.generatedContents && response.generatedContents[0]?.text);
+        const text = typeof response.text === 'function' ? response.text() : 
+                     (response.text || response.candidates?.[0]?.content?.parts?.[0]?.text);
         
-        if (!text) {
-            return res.status(500).json({ message: "AI returned an empty response" });
-        }
+        if (!text) throw new Error("AI returned no content");
 
         const jsonMatch = text.match(/\{[\s\S]*\}/);
-        
-        if (jsonMatch && jsonMatch[0]) {
-            try {
-                const generatedItinerary = JSON.parse(jsonMatch[0]);
-                userTripsRecord.trips[userTripsRecord.trips.length - 1] = generatedItinerary;
-                await userTripsRecord.save();
-                return res.status(200).json(generatedItinerary);
-            } catch (parseError) {
-                return res.status(500).json({ message: "AI response was not valid JSON", raw: text });
-            }
+        if (jsonMatch) {
+            const generatedItinerary = JSON.parse(jsonMatch[0]);
+            userTripsRecord.trips[userTripsRecord.trips.length - 1] = generatedItinerary;
+            await userTripsRecord.save();
+            return res.status(200).json(generatedItinerary);
         } else {
-            return res.status(500).json({ message: "No JSON found in AI response", raw: text });
+            throw new Error("Invalid JSON structure from AI");
         }
 
     } catch (e) {
-        console.error("AI Generation Error:", e);
-        return res.status(e.status || 500).json({ 
-            message: e.message || "Internal Server Error",
-            error: e.stack 
-        });
+        console.error("DETAILED BACKEND ERROR:", e);
+        return res.status(500).json({ message: e.message });
     }
 }
 

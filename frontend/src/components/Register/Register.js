@@ -3,7 +3,6 @@ import { TextField, Button } from '@mui/material';
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'
 import { config } from '../../config';
-import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import './Register.css'
 
@@ -40,25 +39,6 @@ export default function Register() {
                 password: data.password
             });
 
-            toast.promise(
-                sendData, 
-                {
-                    loading: 'Saving...',
-                    success: (data) => {
-                        return <b>Saved !</b>;
-                    },
-                    error: <b>Could not save.</b>,
-                },
-                {
-                    success: {
-                        duration: 2000,
-                    },
-                    error: {
-                        duration: 3000,
-                    },
-                }
-            );
-
             const res = await sendData;
 
             if (res.status === 201) {
@@ -67,7 +47,6 @@ export default function Register() {
 
         } catch (err) {
             console.log(err);
-            toast.error(err.response?.data?.message || 'Something went wrong');
         }
     };
 
@@ -145,10 +124,6 @@ export default function Register() {
 
     return (
         <div className='register'>
-            <div className='toaster'>
-                <Toaster position="top-right" reverseOrder={true} />
-            </div>
-
             <h1>Sign Up</h1>
 
             <form className='register-form' onSubmit={handleSubmit} noValidate>

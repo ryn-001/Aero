@@ -31,17 +31,18 @@ export default function Navbar() {
             </div>
 
             <div className='nav-content' style={{
-                width: user ? (logoutButton ? "60%" : "60%") : ("20%"),
+                width: logoutButton ? "320px" : "150px",
                 transition: "width 0.3s ease-in-out",
                 display: "flex",
-                justifyContent: "center",
+                gap: "1rem",
+                justifyContent: "flex-end",
                 alignItems: "center"
             }}>
                 {user ? (<div style={{display: "flex", alignItems:"center", justifyContent:"flex-end", gap:"1rem"}}>
                     <Button
                     disableRipple
                     sx={{
-                        width: '150px',
+                        width: '120px',
                         height: '40px',
                         borderRadius: '1rem',
                         color: 'black',

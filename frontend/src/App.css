@@ -19,12 +19,3 @@ html, body, #root {
   width: 100%;
 }
 
-.toaster{
-  margin: 0;
-}
-
-@media screen and (max-width) {
-  .toaster{
-    margin-top: 4.5rem;
-  }
-}

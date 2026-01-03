@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import axios from 'axios';
 import { config } from '../../config';
 import { useAuth } from '../../contexts/AuthContext';
@@ -49,41 +48,22 @@ export default function Login() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!validate()) return;
+    e.preventDefault();
+    if (!validate()) return;
+
+    const loginPromise = axios.post(
+            `${config.endpoint}/users/login`,
+            { email: data.email, password: data.password },
+            { withCredentials: true }
+        );
 
         try {
-            const loginData = axios.post(
-                `${config.endpoint}/users/login`,
-                { email: data.email, password: data.password },
-                { withCredentials: true }
-            );
-
-            toast.promise(
-                loginData, 
-                {
-                    loading: 'Checking...',
-                    success: <b>Logged In !</b>,
-                    error: <b>Unable to Login</b>,
-                },
-                {
-                    success: {
-                        duration: 2000,
-                    },
-                    error: {
-                        duration: 3000,
-                    },
-                }
-            );
-
-            const res = await loginData;
-            if (res.status === 200) {
-                localStorage.setItem('token', res.data.token);
-                login(res.data.user);
-                navigate('/tripForm')
-            }
+            const res = await loginPromise;
+            localStorage.setItem('token', res.data.token);
+            login(res.data.user);
+            navigate('/tripForm');
         } catch (err) {
-            toast.error(err.response?.data?.message || "Login failed");
+            console.error("Login Error:", err);
         }
     };
 
@@ -100,7 +80,6 @@ export default function Login() {
 
     return (
         <div className='login'>
-            
 
             <h1>Login</h1>
             <form className='login-form' onSubmit={handleSubmit} noValidate>

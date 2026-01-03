@@ -7,17 +7,12 @@ import Login from './components/Login/Login.js';
 import Squares from './components/Animated Components/squareGrid.js';
 import TripForm from './components/TripForm/TripForm.js';
 import Trip from './components/Trip/Trip.js';
-import { Toaster } from 'react-hot-toast';
 import {ProtectedRoute,PublicRoute} from './components/CheckRoutes.js';
 
 function App() {
   return (
     <div className="App">
       <Navbar />
-
-      <div className='toaster'>
-        <Toaster position="top-right" reverseOrder={true} />
-      </div>
 
       <Squares
         speed={0.5}

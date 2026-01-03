@@ -19,15 +19,6 @@
     z-index: 5;
 }
 
-.toaster{
-  margin: 0;
-}
-
-@media screen and (max-width) {
-  .toaster{
-    margin-top: 4.5rem;
-  }
-}
 
 @media screen and (max-width: 500px){
     .login{
