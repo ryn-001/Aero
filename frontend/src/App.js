@@ -7,7 +7,7 @@ import Login from './components/Login/Login.js';
 import Squares from './components/Animated Components/squareGrid.js';
 import TripForm from './components/TripForm/TripForm.js';
 import Trip from './components/Trip/Trip.js';
-import {ProtectedRoute,PublicRoute} from './components/CheckRoutes.js';
+import {ProtectedRoute,PublicRoute} from './utils/CheckRoutes.js';
 
 function App() {
   return (
