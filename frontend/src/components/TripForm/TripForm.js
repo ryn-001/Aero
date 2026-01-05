@@ -1,4 +1,4 @@
-import { useState, useCallback, use } from "react";
+import { useState, useCallback} from "react";
 import debounce from "lodash.debounce";
 import { TextField, Button, CircularProgress } from '@mui/material';
 import { BsBackpack2 } from "react-icons/bs";
@@ -9,7 +9,6 @@ import { IoSparklesSharp } from "react-icons/io5";
 import { LuSunMedium } from "react-icons/lu";
 import { FaMoneyBill } from "react-icons/fa";
 import { useMemo } from "react";
-import { toast } from "react-hot-toast";
 import {config} from "../../config";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -77,28 +76,13 @@ export default function Trip() {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
 
-                await toast.promise(generatePromise, {
-                    loading: 'Generating Trip',
-                    success: 'Trip Ready! ✈️',
-                    error: 'AI failed to generate your trip. Please try again.',
-                }, {
-                    success: {
-                        duration: 5000,
-                        icon: '🌟',
-                    }
-                });
-
                 const generateRes = await generatePromise;
-                console.log("FINAL DATA:", generateRes.data);
-                
-                navigate('/trip', { state: { tripData: generateRes.data } });
+                console.log(generateRes.data);
+                navigate('/trip');
             }
 
         } catch (e) {
             console.error("Error:", e.message);
-            if (!e.config?.url.includes('generateTrip')) {
-                toast.error("Could not reach the server. Please check your connection.");
-            }
         } finally {
             setTripLoad(false);
         }

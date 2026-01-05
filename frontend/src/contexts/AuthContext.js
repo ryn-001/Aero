@@ -7,27 +7,42 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [trips,setTrips] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const res = await axios.get(
-                    `${config.endpoint}/users/me`,
-                    { withCredentials: true }
-                );
-                setUser(res.data.user);
-            } catch {
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const initializeAuth = async () => {
+        try {
+            setLoading(true);
+            const [userRes,tripsRes] = await Promise.all([
+                await axios.get(`${config.endpoint}/users/me`, {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                }),
+                axios.get(`${config.endpoint}/trip/all`, {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+            ]);
+            setUser(userRes.data.user);
+            setTrips(tripsRes.data.trips)
+        } catch (e) {
+            console.error("Auth initialization failed:", e);
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        fetchUser();
+    
+    useEffect(() => {
+        initializeAuth();
     }, []);
 
-    const login = (userData) => {
+    const login = async (userData) => {
         setUser(userData);
     };
 
@@ -48,10 +63,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
-            {!loading && children}
-        </AuthContext.Provider>
-    );
+    <AuthContext.Provider value={{ user, login, logout, loading, trips}}>
+        {!loading && children}
+    </AuthContext.Provider>
+);
 };
 
 export const useAuth = () => useContext(AuthContext);

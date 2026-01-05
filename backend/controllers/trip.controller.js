@@ -1,17 +1,6 @@
 const { UserTrips } = require('../models/userTrips.models');
 const { GoogleGenAI } = require("@google/genai");
 
-const getUserTripByEmail = async (req, res) => {
-    try {
-        const email = req.user.email;
-        const userTrips = await UserTrips.findOne({ email });
-        if (!userTrips) return res.status(404).json({ message: 'User trips not found' });
-        return res.status(200).json(userTrips);
-    } catch (e) {
-        return res.status(500).json({ message: e.message });
-    }
-}
-
 const addTrip = async (req, res) => {
     try {
         const { trip } = req.body;
@@ -44,15 +33,11 @@ const generateTrip = async (req, res) => {
             apiVersion: 'v1' 
         });
 
-        const modelsResponse = await ai.models.list();
-
-        const prompt = `Generate a ${tripData.days}-day travel itinerary for "${tripData.place}" for a "${tripData.type}" trip with a "${tripData.cost}" budget. Make sure to attach images hyperlink so I can use them in my components.
-        
+        const prompt = `Generate a ${tripData.days}-day travel itinerary for "${tripData.place}" for a "${tripData.type}" trip with a "${tripData.cost}" budget.
         Return ONLY valid JSON in this schema:
         {
           "destination": "${tripData.place}",
           "totalDays": ${tripData.days},
-          "heroImage": "URL",
           "hotels": [],
           "destinations": [],
           "itinerary": []
@@ -73,15 +58,29 @@ const generateTrip = async (req, res) => {
             const generatedItinerary = JSON.parse(jsonMatch[0]);
             userTripsRecord.trips[userTripsRecord.trips.length - 1] = generatedItinerary;
             await userTripsRecord.save();
-            return res.status(200).json(generatedItinerary);
+            return res.status(200).json({message: "Trips stored in DB successfully"});
         } else {
             throw new Error("Invalid JSON structure from AI");
         }
 
     } catch (e) {
-        console.error("DETAILED BACKEND ERROR:", e);
+        return res.status(500).json({ message: e.message });
+    }
+
+}
+
+const getUserTrips = async (req, res) => {
+    try{
+
+        const email = req.user.email;
+        const userTrips = await UserTrips.findOne({ email });
+        if (!userTrips) return res.status(404).json({ message: 'No trips found for this user' });
+
+        console.log(userTrips);
+        return res.status(200).json({trips: userTrips.trips});
+    }catch(e){
         return res.status(500).json({ message: e.message });
     }
 }
 
-module.exports = { getUserTripByEmail, addTrip, generateTrip };
+module.exports = { addTrip, generateTrip, getUserTrips};
