@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
                     }
                 })
             ]);
+            localStorage.setItem("user-trips", JSON.stringify(tripsRes.data.trips));
             setUser(userRes.data.user);
             setTrips(tripsRes.data.trips)
         } catch (e) {

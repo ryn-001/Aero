@@ -75,8 +75,6 @@ const getUserTrips = async (req, res) => {
         const email = req.user.email;
         const userTrips = await UserTrips.findOne({ email });
         if (!userTrips) return res.status(404).json({ message: 'No trips found for this user' });
-
-        console.log(userTrips);
         return res.status(200).json({trips: userTrips.trips});
     }catch(e){
         return res.status(500).json({ message: e.message });
