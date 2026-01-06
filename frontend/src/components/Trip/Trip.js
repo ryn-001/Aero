@@ -5,11 +5,17 @@ import { RenderImages } from "../RenderImages/RenderImages";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import './Trip.css';
+import { useEffect } from "react";
 
  
  export default function Trip() {
     const { trips, UnsplashKey } = useAuth();
-    const latestTrip = trips[trips.length - 1];
+    let latestTrip = trips[trips.length - 1];
+
+    useEffect(() => {
+        latestTrip = trips[trips.length - 1];
+    }, [trips]);
+
     console.log(latestTrip);
 
     const startDate = new Date().toDateString().split(" ").slice(1, 3).join(" ");
