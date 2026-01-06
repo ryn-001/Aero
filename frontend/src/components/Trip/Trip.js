@@ -14,7 +14,7 @@ import { useEffect } from "react";
 
     useEffect(() => {
         latestTrip = trips[trips.length - 1];
-    }, [trips]);
+    }, []);
 
     console.log(latestTrip);
 
