@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
  
  export default function Trip() {
     const { trips, UnsplashKey } = useAuth();
-    const [latestTrip,setLatestTrip] = useState([]);
+    const [latestTrip,setLatestTrip] = useState(trips[trips.length - 1]);
 
     useEffect(() => {
         setLatestTrip(trips[trips.length - 1]);
