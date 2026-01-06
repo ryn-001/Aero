@@ -8,13 +8,15 @@ import './Trip.css';
 import { useState, useEffect } from "react";
 
  
- export default function Trip() {
-    const { trips, UnsplashKey } = useAuth();
+export default function Trip() {
+    const { trips, setTrips,UnsplashKey, initializeAuth } = useAuth();
     const [latestTrip,setLatestTrip] = useState(trips[trips.length - 1]);
 
     useEffect(() => {
+        initializeAuth();
         setLatestTrip(trips[trips.length - 1]);
-    }, [trips]);
+        setTrips(trips);
+    });
 
     const startDate = new Date().toDateString().split(" ").slice(1, 3).join(" ");
     
