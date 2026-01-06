@@ -8,6 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [trips,setTrips] = useState(null);
+    const [UnsplashKey,setUnsplashKey] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const initializeAuth = async () => {
@@ -30,6 +31,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem("user-trips", JSON.stringify(tripsRes.data.trips));
             setUser(userRes.data.user);
             setTrips(tripsRes.data.trips)
+            setUnsplashKey(tripsRes.data.key)
         } catch (e) {
             console.error("Auth initialization failed:", e);
             setUser(null);
@@ -64,7 +66,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-    <AuthContext.Provider value={{ user, login, logout, loading, trips}}>
+    <AuthContext.Provider value={{ user, login, logout, UnsplashKey, loading, trips}}>
         {!loading && children}
     </AuthContext.Provider>
 );

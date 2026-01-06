@@ -23,18 +23,18 @@ function App() {
       />
 
       <Routes>
-        <Route path='/' element={<LandingPage />} />
-        
-        <Route element={<PublicRoute/>}>
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-        </Route>
-        
-        <Route element={<ProtectedRoute />}>
-          <Route path='/tripForm' element={<TripForm />} />
-          <Route path='/trip' element={<Trip />} />
-        </Route>
-      </Routes>
+          <Route path='/' element={<LandingPage />} />
+          
+          <Route element={<PublicRoute/>}>
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login />} />
+          </Route>
+          
+          <Route element={<ProtectedRoute />}>
+            <Route path='/tripForm' element={<TripForm />} />
+            <Route path='/trip' element={<Trip />} />
+          </Route>
+        </Routes>
     </div>
   );
 }

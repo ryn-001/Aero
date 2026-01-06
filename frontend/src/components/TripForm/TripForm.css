@@ -61,6 +61,7 @@ h2{
 .types{
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
     padding: 1rem;
@@ -78,7 +79,6 @@ h2{
     gap: 1rem;
 }
 
-
 p{
     padding: 4px 0;
     font-weight: lighter;
@@ -93,6 +93,25 @@ p{
 .trip-price-icon > *{
     width: 70px;
     height: 70px;
+}
+
+@media screen and (max-width: 425px) {
+    .types > button{
+        width: 125px;
+        height: 125px;
+    }
+
+    .trip-type-icon > *{
+        width: 30px;
+        height: 30px;
+        font-size: 10px;
+    }
+
+    .trip-price-icon > *{
+        width: 30px;
+        height: 30px;
+        font-size: 10px;
+    }
 }
 
 .trip-form{
@@ -114,7 +133,9 @@ p{
 @media screen and (max-width: 576px) {
     .trip{
         width: 100%;
+        flex: 1;
         margin: 0;
         padding: 1rem;
+        height: 100vh;
     }
 }
