@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 export default function Trip() {
     const { trips, setTrips,UnsplashKey, initializeAuth } = useAuth();
     const [latestTrip,setLatestTrip] = useState(trips[trips.length - 1]);
+    console.log(latestTrip);
 
     useEffect(() => {
         initializeAuth();
