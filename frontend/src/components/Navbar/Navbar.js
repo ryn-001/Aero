@@ -54,6 +54,7 @@ export default function Navbar() {
                             boxShadow: 'none',
                         },
                     }}
+                    onClick={() => navigate('/alltrips')}
                     variant='text'>My Trips</Button>
 
                     <div className="user-profile" style={{cursor: 'pointer'}} onClick={() => setLogoutButton(true)}>

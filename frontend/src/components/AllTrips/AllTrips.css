@@ -1,0 +1,69 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.user-all-trips{
+    margin-top: 1.5rem;
+    width: 60%;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-trip{
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.user-trip-heading{
+    padding-bottom: 10px;
+    color: #FF8C00;
+}
+
+.user-trip-details{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.render-images{
+    width: 100%;
+    height: 300px;
+    border-radius: 1rem;
+}
+
+.render-images .image-destination{
+    display: none;
+}
+
+img{
+    width: 100%;
+    height: 300px;
+    border-radius: 1rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+@media screen and (max-width: 768px){
+    .user-all-trips{
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 576px){
+    .user-all-trips{
+        width: 100%;
+        height: 100%;
+        margin-top: 0;
+    }
+}

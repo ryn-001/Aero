@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 dotenv.config();
 app.use(cors({
-  origin: ['https://aero-umber.vercel.app', 'http://localhost:3000'],
+  origin: ['https://aero-umber.vercel.app', 'http://10.38.200.211:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));

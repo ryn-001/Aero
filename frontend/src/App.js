@@ -7,6 +7,7 @@ import Login from './components/Login/Login.js';
 import Squares from './components/Animated Components/squareGrid.js';
 import TripForm from './components/TripForm/TripForm.js';
 import Trip from './components/Trip/Trip.js';
+import AllTrips from './components/AllTrips/AllTrips.js';
 import {ProtectedRoute,PublicRoute} from './utils/CheckRoutes.js';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path='/tripForm' element={<TripForm />} />
             <Route path='/trip' element={<Trip />} />
+            <Route path='/alltrips' element={<AllTrips/>}/>
           </Route>
         </Routes>
     </div>

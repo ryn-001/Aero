@@ -56,6 +56,7 @@ const generateTrip = async (req, res) => {
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
             const generatedItinerary = JSON.parse(jsonMatch[0]);
+            cohnsole.log(generatedItinerary);
             userTripsRecord.trips[userTripsRecord.trips.length - 1] = generatedItinerary;
             await userTripsRecord.save();
             return res.status(200).json({message: "Trips stored in DB successfully"});
@@ -64,6 +65,7 @@ const generateTrip = async (req, res) => {
         }
 
     } catch (e) {
+        console.error("Error generating trip:", e);
         return res.status(500).json({ message: e.message });
     }
 

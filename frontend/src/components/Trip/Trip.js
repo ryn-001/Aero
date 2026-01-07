@@ -9,15 +9,15 @@ import { useState, useEffect } from "react";
 
  
 export default function Trip() {
-    const { trips, setTrips,UnsplashKey, initializeAuth } = useAuth();
+    const { trips, setTrips,UnsplashKey, initializeTrips } = useAuth();
     const [latestTrip,setLatestTrip] = useState(trips[trips.length - 1]);
     console.log(latestTrip);
 
     useEffect(() => {
-        initializeAuth();
+        initializeTrips();
         setLatestTrip(trips[trips.length - 1]);
         setTrips(trips);
-    });
+    }, [trips]);
 
     const startDate = new Date().toDateString().split(" ").slice(1, 3).join(" ");
     
