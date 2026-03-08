@@ -12,6 +12,7 @@ import { useMemo } from "react";
 import {config} from "../../config";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from 'react-hot-toast';
 import "./TripForm.css";
 
 export default function Trip() {
@@ -64,6 +65,7 @@ export default function Trip() {
 
         try {
             setTripLoad(true);
+            const createToastId = toast.loading('Creating trip...');
             
             const postRes = await axios.post(
                 `${config.endpoint}/trip/createTrip`,
@@ -72,17 +74,26 @@ export default function Trip() {
             );
 
             if (postRes.status === 201) {
-                const generatePromise = axios.get(`${config.endpoint}/trip/generateTrip`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-                });
+                toast.success('Trip created! Generating itinerary...', { id: createToastId });
+                const generateToastId = toast.loading('Generating AI itinerary (this may take a moment)...');
+                
+                try {
+                    const generatePromise = axios.get(`${config.endpoint}/trip/generateTrip`, {
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                    });
 
-                const generateRes = await generatePromise;
-                console.log(generateRes.data);
-                navigate('/trip');
+                    const generateRes = await generatePromise;
+                    console.log(generateRes.data);
+                    toast.success('Itinerary generated successfully!', { id: generateToastId });
+                    setTimeout(() => navigate('/trip'), 1000);
+                } catch (genError) {
+                    toast.error(genError.response?.data?.message || 'Failed to generate itinerary', { id: generateToastId });
+                }
             }
 
         } catch (e) {
             console.error("Error:", e.message);
+            toast.error(e.response?.data?.message || 'Failed to create trip');
         } finally {
             setTripLoad(false);
         }

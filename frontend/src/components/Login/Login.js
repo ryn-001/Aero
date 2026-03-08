@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { config } from '../../config';
 import { useAuth } from '../../contexts/AuthContext';
+import toast from 'react-hot-toast';
 import './Login.css';
 
 export default function Login() {
@@ -51,6 +52,8 @@ export default function Login() {
     e.preventDefault();
     if (!validate()) return;
 
+    const toastId = toast.loading('Logging in...');
+
     const loginPromise = axios.post(
             `${config.endpoint}/users/login`,
             { email: data.email, password: data.password },
@@ -61,9 +64,11 @@ export default function Login() {
             const res = await loginPromise;
             localStorage.setItem('token', res.data.token);
             login(res.data.user);
-            navigate('/tripForm');
+            toast.success('Login successful!', { id: toastId });
+            setTimeout(() => navigate('/tripForm'), 500);
         } catch (err) {
             console.error("Login Error:", err);
+            toast.error(err.response?.data?.message || 'Login failed', { id: toastId });
         }
     };
 

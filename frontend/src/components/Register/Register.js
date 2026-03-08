@@ -4,6 +4,7 @@ import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'
 import { config } from '../../config';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import './Register.css'
 
 export default function Register() {
@@ -31,6 +32,8 @@ export default function Register() {
 
         if (!validate()) return; 
 
+        const toastId = toast.loading('Registering...');
+
         try {
             const sendData = axios.post(`${config.endpoint}/users/register`, {
                 fullname: data.username,
@@ -42,11 +45,13 @@ export default function Register() {
             const res = await sendData;
 
             if (res.status === 201) {
-                navigate('/login'); 
+                toast.success('Registration successful! Redirecting to login...', { id: toastId });
+                setTimeout(() => navigate('/login'), 1500);
             }
 
         } catch (err) {
             console.log(err);
+            toast.error(err.response?.data?.message || 'Registration failed', { id: toastId });
         }
     };
 

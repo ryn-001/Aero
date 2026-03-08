@@ -1,5 +1,6 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Navbar from "./components/Navbar/Navbar.js";
 import LandingPage from './components/LandingPage/LandingPage.js';
 import Register from './components/Register/Register.js';
@@ -13,6 +14,7 @@ import {ProtectedRoute,PublicRoute} from './utils/CheckRoutes.js';
 function App() {
   return (
     <div className="App">
+      <Toaster position="top-right" />
       <Navbar />
 
       <Squares

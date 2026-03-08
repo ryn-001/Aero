@@ -14,8 +14,7 @@ export const AuthProvider = ({ children }) => {
     const initializeAuth = async () => {
         try {
             setLoading(true);
-            const userRes = await
-                await axios.get(`${config.endpoint}/users/me`, {
+            const userRes = await axios.get(`${config.endpoint}/users/me`, {
                     withCredentials: true,
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
