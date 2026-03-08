@@ -69,7 +69,6 @@ export default function Navbar() {
                         width: '100px',
                         height: '40px',
                         color: 'white',
-                        boxShadow: 'none',
                         borderRadius: '1rem',
                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 
@@ -97,7 +96,6 @@ export default function Navbar() {
                         width: '150px',
                         height: '40px',
                         color: 'white',
-                        boxShadow: 'none',
                         borderRadius: '1rem',
                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 
