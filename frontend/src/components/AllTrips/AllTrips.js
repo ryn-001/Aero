@@ -19,7 +19,7 @@ export default function AllTrips (){
             }
         };
         loadTrips();
-    }, []); // Run only once on mount
+    }, [initializeTrips]);
 
     if (loading) {
         return (

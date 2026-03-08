@@ -9,22 +9,21 @@ import { useState, useEffect } from "react";
 
  
 export default function Trip() {
-    const { trips, setTrips, UnsplashKey, initializeTrips } = useAuth();
+    const { trips, UnsplashKey, initializeTrips } = useAuth();
     const [latestTrip, setLatestTrip] = useState(null);
     const [loading, setLoading] = useState(true);
     const [hasInitialized, setHasInitialized] = useState(false);
-    const [expandedDays, setExpandedDays] = useState(new Set([0])); // First day expanded by default
+    const [expandedDays, setExpandedDays] = useState(new Set([0]));
 
     useEffect(() => {
         const loadTrips = async () => {
-            if (hasInitialized) return; // Prevent multiple initializations
+            if (hasInitialized) return; 
 
             setLoading(true);
             try {
                 await initializeTrips();
                 setHasInitialized(true);
 
-                // Small delay to show loading animation
                 setTimeout(() => {
                     if (trips && trips.length > 0) {
                         setLatestTrip(trips[trips.length - 1]);
@@ -38,9 +37,8 @@ export default function Trip() {
         };
 
         loadTrips();
-    }, []); // Empty dependency array to run only once
+    }, [hasInitialized,initializeTrips,trips]); 
 
-    // Attractive Loading Component
     if (loading) {
         return (
             <div className='user-trips loading-container'>
@@ -70,7 +68,6 @@ export default function Trip() {
         );
     }
 
-    // Show error state if no trips
     if (!latestTrip || !trips || trips.length === 0) {
         return (
             <div className='user-trips no-trips'>
