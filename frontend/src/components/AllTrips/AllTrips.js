@@ -1,15 +1,16 @@
-import {useEffect, useState} from "react";
-import {RenderImages} from "../RenderImages/RenderImages";
+import { useEffect, useState } from "react";
+import { RenderImages } from "../RenderImages/RenderImages";
 import { useAuth } from "../../contexts/AuthContext";
-import "./AllTrips.css"
+import "./AllTrips.css";
 
-export default function AllTrips (){
-    const {initializeTrips, trips, UnsplashKey} = useAuth();
+export default function AllTrips() {
+    const { initializeTrips, trips, UnsplashKey } = useAuth();
     const [loading, setLoading] = useState(true);
+
+    console.log(trips);
 
     useEffect(() => {
         const loadTrips = async () => {
-            setLoading(true);
             try {
                 await initializeTrips();
             } catch (error) {
@@ -18,6 +19,7 @@ export default function AllTrips (){
                 setLoading(false);
             }
         };
+
         loadTrips();
     }, [initializeTrips]);
 
@@ -43,15 +45,21 @@ export default function AllTrips (){
                 trips.map((trip, i) => (
                     <div className="user-trip" key={i}>
                         <div className="user-trip-details">
-                            <h3 className="user-trip-heading">{trip.destination || "No Destination"}</h3>
+                            <h3 className="user-trip-heading">
+                                {trip.destination || "No Destination"}
+                            </h3>
+
                             <div className="trip-info">
                                 <span>📅 {trip.totalDays || 0} days</span>
-                                {trip.type && <span>🎯 {trip.type}</span>}
-                                {trip.cost && <span>💰 {trip.cost}</span>}
                             </div>
                         </div>
+
                         <div className="trip-image">
-                            <RenderImages UnsplashKey={UnsplashKey} destination={trip.destination} count={1}/>
+                            <RenderImages
+                                UnsplashKey={UnsplashKey}
+                                destination={trip.destination}
+                                count={1}
+                            />
                         </div>
                     </div>
                 ))
