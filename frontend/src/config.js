@@ -1,5 +1,5 @@
 export const config = {
-  endpoint: 'https://aero-1ma0.onrender.com/v1/api'
+  endpoint: 'http://16.171.146.82:8082/v1/api'
 };
 
 //https://aero-1ma0.onrender.com
